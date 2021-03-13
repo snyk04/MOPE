@@ -1,5 +1,6 @@
 import numpy as np
 import random as rm
+import time
 
 
 def y(x1, x2, x3):
@@ -16,6 +17,9 @@ def normalized_x(x, x0, dx):
     
     
 if __name__ == "__main__":
+    
+    start_time = time.time()
+    
     a0 = 2
     a1 = 4
     a2 = 6
@@ -68,3 +72,6 @@ if __name__ == "__main__":
         answer_index = difference_array.index(copy_array[i])
         print("\nТочка плану, що задовольняє критерію вибору оптимальності: {}".format(every_x_array[answer_index]))
         break
+    
+    print("\nЧас виконання програми: {} секунди".format(round(time.time() - start_time, 6)))
+    
