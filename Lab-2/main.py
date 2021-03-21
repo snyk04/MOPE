@@ -3,6 +3,13 @@ import numpy as np
 from random import randint
 
 
+def f_uv(u, v):
+        if u >= v:
+            return u / v
+        else:
+            return v / u
+
+
 if __name__ == "__main__":
     p_list = (0.99, 0.98, 0.95, 0.90)
     rkr_table = {2: (1.73, 1.72, 1.71, 1.69),
@@ -29,9 +36,9 @@ if __name__ == "__main__":
 
     sigma_teta = math.sqrt((2 * (2 * m - 2)) / (m * (m - 4)))
 
-    f_uv_1 = sigma_2_1 / sigma_2_2
-    f_uv_2 = sigma_2_3 / sigma_2_1
-    f_uv_3 = sigma_2_3 / sigma_2_2
+    f_uv_1 = f_uv(sigma_2_1, sigma_2_2)
+    f_uv_2 = f_uv(sigma_2_3, sigma_2_1)
+    f_uv_3 = f_uv(sigma_2_3, sigma_2_2)
 
     teta_uv_1 = ((m - 2) / m) * f_uv_1
     teta_uv_2 = ((m - 2) / m) * f_uv_2
