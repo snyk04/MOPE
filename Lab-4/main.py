@@ -268,10 +268,10 @@ def dispersion(y, y_aver, n, m):
 
 
 def bs(x, y_aver, n):
-    res = [sum(1 * y for y in y_aver) / n]
+    res = [sum(1 * y for y in y_aver) / n]							# y_aver - массив средних значений рядов матрицы Y. Рассчитав среднее значение массива y_aver получаем среднее значение всей матрицы Y
     for i in range(7):
-        b = sum(j[0] * j[1] for j in zip(x[:, i], y_aver)) / n
-        res.append(b)
+        b = sum(j[0] * j[1] for j in zip(x[:, i], y_aver)) / n      # Суммируем произведения значений среза матрицы X по і-тому столбцу на массив y_aver (поэлементно), и делим полученное число на n (количество столбцов матриц)
+        res.append(b)												# Добавляем полученное значение в вовзращаемый массив
     return res
 
 
