@@ -1,12 +1,12 @@
+import random
+import sklearn.linear_model as lm
+from scipy.stats import f, t
 from functools import partial
 from pyDOE2 import *
-import random
-from scipy.stats import f, t
-import sklearn.linear_model as lm
 
 
 # Початкові умови
-x_range = ((-3, 6), (0, 10), (-7, 10))
+x_range = [[-3, 6], [0, 10], [-7, 10]]
 
 x_aver_max = sum([x[1] for x in x_range]) / 3
 x_aver_min = sum([x[0] for x in x_range]) / 3
@@ -161,6 +161,8 @@ def fisher_criterion(y, y_aver, y_new, n, m, d):
 
 
 def check(X, Y, B, n, m):
+    global x_range, x_aver_max, x_aver_min, y_max, y_min
+
     print('\n\tПеревірка рівняння:')
     f1 = m - 1
     f2 = n
@@ -218,7 +220,20 @@ def check(X, Y, B, n, m):
     if F_p < f_t:
         print('Математична модель адекватна експериментальним даним')
     else:
-        print('Математична модель не адекватна експериментальним даним')
+        print('\nМатематична модель не адекватна експериментальним даним')
+        print('Отже, починаємо спочатку, але коефіцієнти по варіанту ділимо на 1.7')
+
+        for i in range(len(x_range)):
+            for j in range(len(x_range[0])):
+                x_range[i][j] /= 1.7
+
+        x_aver_max = sum([x[1] for x in x_range]) / 3
+        x_aver_min = sum([x[0] for x in x_range]) / 3
+
+        y_max = 200 + int(x_aver_max)
+        y_min = 200 + int(x_aver_min)
+
+        main(n, m)
 
 
 def main(n, m):
