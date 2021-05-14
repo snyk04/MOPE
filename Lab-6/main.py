@@ -12,6 +12,9 @@ x_min = [10, -30, -30]
 x_max = [40, 45, -10]
 x0 = [(x_max[_] + x_min[_]) / 2 for _ in range(3)]
 dx = [x_max[_] - x0[_] for _ in range(3)]
+
+amount_of_coefficients = 0
+
 norm_plan_raw = [[-1, -1, -1],
                  [-1, +1, +1],
                  [+1, -1, +1],
@@ -135,6 +138,8 @@ def cochran_criteria(m, n, y_table):
 
 
 def student_criteria(m, n, y_table, beta_coefficients):
+    global amount_of_coefficients
+
     def get_student_value(f3, q):
         return Decimal(abs(t.ppf(q / 2, f3))).quantize(Decimal('.0001')).__float__()
 
@@ -147,6 +152,9 @@ def student_criteria(m, n, y_table, beta_coefficients):
     q = 0.05
     t_our = get_student_value(f3, q)
     importance = [True if el > t_our else False for el in list(t_i)]
+
+    amount_of_coefficients += sum(importance)
+
     # print result data
     print("Оцінки коефіцієнтів βs: " + ", ".join(list(map(lambda x: str(round(float(x), 3)), beta_coefficients))))
     print("Коефіцієнти ts: " + ", ".join(list(map(lambda i: "{:.2f}".format(i), t_i))))
@@ -187,18 +195,26 @@ def main():
     m = 3
     n = 15
 
-    natural_plan = generate_factors_table(natural_plan_raw)
-    y_arr = generate_y(m, natural_plan_raw)
-    while not cochran_criteria(m, n, y_arr):
-        m += 1
-        y_arr = generate_y(m, natural_plan)
+    amount_of_iterations = 0
 
-    print_matrix(m, n, natural_plan, y_arr, " для натуралізованих факторів:")
-    coefficients = find_coefficients(natural_plan, y_arr)
-    print_equation(coefficients)
-    importance = student_criteria(m, n, y_arr, coefficients)
-    d = len(list(filter(None, importance)))
-    fisher_criteria(m, n, d, natural_plan, y_arr, coefficients, importance)
+    while amount_of_coefficients < 50:
+        natural_plan = generate_factors_table(natural_plan_raw)
+        y_arr = generate_y(m, natural_plan_raw)
+        while not cochran_criteria(m, n, y_arr):
+            m += 1
+            y_arr = generate_y(m, natural_plan)
+
+        print_matrix(m, n, natural_plan, y_arr, " для натуралізованих факторів:")
+        coefficients = find_coefficients(natural_plan, y_arr)
+        print_equation(coefficients)
+        importance = student_criteria(m, n, y_arr, coefficients)
+        d = len(list(filter(None, importance)))
+        fisher_criteria(m, n, d, natural_plan, y_arr, coefficients, importance)
+        
+        if amount_of_coefficients < 50:
+            amount_of_iterations += 1
+
+    print(f"\nКількість ітерацій: {amount_of_iterations}")
 
 
 if __name__ == "__main__":
