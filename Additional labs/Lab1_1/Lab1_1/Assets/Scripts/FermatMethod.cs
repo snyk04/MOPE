@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class FermatMethod
 {
-    public static long[] Factorize(long n)
+    public static long[] Factorize(long n, out int amountOfOperations)
     {
         if (n % 2 == 0)
         {
@@ -18,9 +18,10 @@ public static class FermatMethod
 
         var multipliers = new List<long>();
         var sqrts = GetSumOfSquares(n, out var numOfOperations);
-        Debug.Log(numOfOperations);
         multipliers.Add(Math.Abs(sqrts[0] + sqrts[1]));
         multipliers.Add(Math.Abs(sqrts[0] - sqrts[1]));
+
+        amountOfOperations = numOfOperations;
 
         return multipliers.ToArray();
     }

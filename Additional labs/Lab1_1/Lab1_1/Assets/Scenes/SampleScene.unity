@@ -1046,9 +1046,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5de44116b71da44d9b899716685014a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messageBox: {fileID: 1025964364}
   inputN: {fileID: 1245462364604009950}
   result: {fileID: 562180447}
-  messageBox: {fileID: 1025964364}
 --- !u!1 &1479901957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1880,7 +1880,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 50
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1

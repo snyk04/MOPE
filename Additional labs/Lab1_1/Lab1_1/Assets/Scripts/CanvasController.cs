@@ -39,9 +39,11 @@ public class CanvasController : MonoBehaviour
         }
 
         long[] multipliers;
+        int amountOfOperations;
         try
         {
-            multipliers = FindMultipliers(n);
+            multipliers = FindMultipliers(n, out var numOfOperations);
+            amountOfOperations = numOfOperations;
         }
         catch (Exception e)
         {
@@ -50,17 +52,20 @@ public class CanvasController : MonoBehaviour
             return;
         }
 
-        ShowResult(multipliers, n);
+        ShowResult(multipliers, n, amountOfOperations);
     }
 
-    private void ShowResult(long[] multipliers, long n)
+    private void ShowResult(long[] multipliers, long n, int amountOfOperations)
     {
-        var resultText = $"n = {n} = {string.Join(" * ", multipliers)}";
+        var resultText = $"n = {n} = {string.Join(" * ", multipliers)}\n" +
+                         $"Кількість проведених ітерацій: {amountOfOperations}";
         result.text = resultText;
     }
 
-    private long[] FindMultipliers(long n)
+    private long[] FindMultipliers(long n, out int numOfOperations)
     {
-        return FermatMethod.Factorize(n);
+        var result = FermatMethod.Factorize(n, out var amountOfOperations);
+        numOfOperations = amountOfOperations;
+        return result;
     }
 }
